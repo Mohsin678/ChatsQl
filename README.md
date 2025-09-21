@@ -1,8 +1,9 @@
 ---
 license: apache-2.0
-title: Chatsql
+title: chatsql
 sdk: streamlit
-emoji: 🐨
-colorFrom: yellow
-colorTo: red
-short_description: demo app of chat
+emoji: 📊
+colorFrom: red
+colorTo: yellow
+short_description: de,o ppp
+---
