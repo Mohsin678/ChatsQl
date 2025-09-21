@@ -18,4 +18,4 @@ jobs:
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://Mak13:$HF_TOKEN@huggingface.co/spaces/Mak13/chatsql1 main
+        run: git push --force https://Mak13:$HF_TOKEN@huggingface.co/spaces/Mak13/chatsql1 main
