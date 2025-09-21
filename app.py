@@ -9,8 +9,9 @@ from sqlalchemy import create_engine
 import sqlite3
 from langchain_groq import ChatGroq
 
-st.set_page_config(page_title="langchain demo")
-st.title("langchain demo")
+
+st.set_page_config(page_title="LangChain: Chat with SQL DB", page_icon="🦜")
+st.title("🦜 LangChain: Chat with SQL DB")
 
 LOCALDB = "USE_LOCALDB"
 MYSQL = "USE_MYSQL"
@@ -30,6 +31,10 @@ else:
 
 api_key = st.sidebar.text_input(label="groq key",type="password")
 
+if not api_key:
+    st.info("Please provide api key")
+    st.stop()
+
 if not db_url:
     st.info("please enter db info")
 if not api_key:
@@ -37,11 +42,11 @@ if not api_key:
 
 llm = ChatGroq(groq_api_key = api_key,model ="Gemma2-9b-It",streaming=True)
 @st.cache_resource(ttl="2h")
-def configure_db(db_url,mysql_host=None,mysql_user=None,mysql_password=None,my_sql_db=None):
+def configure_db(db_url,mysql_host=None,mysql_user=None,mysql_password=None,mysql_db=None):
     if db_url==LOCALDB:
         dbfilepath = (Path(__file__).parent/"student.db").absolute()
         print(dbfilepath)
-        creator = lambda: sqlite3.connect(f"file{dbfilepath}?mode=ro",uri=True)
+        creator = lambda: sqlite3.connect(f"file:{dbfilepath}?mode=ro",uri=True)
         return SQLDatabase(create_engine("sqlite:///",creator=creator))
     
     elif db_url==MYSQL:
@@ -52,7 +57,7 @@ def configure_db(db_url,mysql_host=None,mysql_user=None,mysql_password=None,my_s
             return SQLDatabase(create_engine(f"mysql+mysqlconnector://{mysql_user}:{mysql_password}@{mysql_host}/{mysql_db}"))
         
 if db_url==MYSQL:
-    db = configure_db(mysql_host,mysql_user,mysql_password,mysql_db)
+    db = configure_db(db_url,mysql_host,mysql_user,mysql_password,mysql_db)
 else:
     db = configure_db(db_url)
 
@@ -71,7 +76,7 @@ if "messages" not in st.session_state or st.sidebar.button("clear msg history"):
     st.session_state["messages"] = [{"role":"assistant","content":"how can i help u"}]
 
 for msg in st.session_state.messages:
-    st.chat_message(msg["role"].write(msg["content"]))
+    st.chat_message(msg["role"]).write(msg["content"])
 
 user_query = st.chat_input(placeholder="ask anything from database")
 

@@ -14,7 +14,7 @@ create table STUDENT(NAME VARCHAR(25),CLASS VARCHAR(25),SECTION VARCHAR(25), MAR
 cursor.execute(table_info)
 
 #insert record in table
-cursor.execute('''insert into  STUDENT values("krish","devops","A",90)''')
+cursor.execute('''Insert Into  STUDENT values("krish","devops","A",90)''')
 cursor.execute('''Insert Into STUDENT values('John','Data Science','B',100)''')
 cursor.execute('''Insert Into STUDENT values('Mukesh','Data Science','A',86)''')
 cursor.execute('''Insert Into STUDENT values('Jacob','DEVOPS','A',50)''')
